@@ -10,7 +10,7 @@ public class MainDashboard extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/com/example/wpl/loginSignupPage.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/com/example/wpl/loginPage.fxml"));
         Scene scene = new Scene(root);
         primaryStage.setScene(scene);
         primaryStage.show();

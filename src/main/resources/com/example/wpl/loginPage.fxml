@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.layout.Priority?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <HBox alignment="CENTER" spacing="15" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0">
+         <children>
+            <!-- First VBox -->
+            <VBox alignment="CENTER" spacing="10" style="-fx-background-color: #fc4503; -fx-padding: 20;" HBox.hgrow="ALWAYS">
+               <ImageView fitHeight="115.0" fitWidth="159.0" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                     <Image url="@../../../Assets/8_1sasa11.jpg"/>
+                  </image>
+               </ImageView>
+               <Text strokeType="OUTSIDE" strokeWidth="0" style="-fx-font-size: 20; -fx-font-weight: bold; -fx-fill: #00ff2f;" text="Welcome to" />
+               <Text strokeType="OUTSIDE" strokeWidth="0" style="-fx-font-size: 18; -fx-fill: #00ff22;" text="WoodPecker Logistics" />
+               <Label text="Contact Info:" />
+               <Label text="-l227988@lhr.nu.edu.pk" />
+            </VBox>
+            <!-- Second VBox -->
+            <VBox alignment="CENTER" spacing="20" HBox.hgrow="ALWAYS">
+               <Label text="Email:" />
+               <TextField maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
+               <Label text="Password:" />
+               <TextField maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
+               <Button style="-fx-cursor: hand;" text="Log in" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
+               <HBox alignment="CENTER" spacing="5">
+                  <Label text="Do not have an account?" />
+                  <Button style="-fx-background-color: transparent; -fx-cursor: hand;" text="Sign up" />
+               </HBox>
+            </VBox>
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>
