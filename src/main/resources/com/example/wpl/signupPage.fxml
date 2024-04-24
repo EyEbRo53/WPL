@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.image.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.wpl.SignupController">
+    <children>
+        <HBox alignment="CENTER" spacing="15" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0">
+            <children>
+                <VBox alignment="CENTER" spacing="10" style="-fx-background-color: #fc4503; -fx-padding: 20;" HBox.hgrow="ALWAYS">
+                    <ImageView fitHeight="115.0" fitWidth="159.0" pickOnBounds="true" preserveRatio="true">
+                        <image>
+                            <Image url="@../../../Assets/8_1sasa11.jpg"/>
+                        </image>
+                    </ImageView>
+                    <Text text="Join WoodPecker Logistics" style="-fx-font-size: 20; -fx-font-weight: bold; -fx-fill: #00ff2f;"/>
+                    <Label text="Improve your business logistics with us." />
+                </VBox>
+                <VBox alignment="CENTER" spacing="20" HBox.hgrow="ALWAYS">
+                    <Label text="Sign Up" style="-fx-font-size: 24; -fx-font-weight: bold;"/>
+                    <Label text="Full Name:" />
+                    <TextField fx:id="fullNameField" HBox.hgrow="ALWAYS" />
+                    <Label text="Email:" />
+                    <TextField fx:id="emailField" HBox.hgrow="ALWAYS" />
+                    <Label text="Password:" />
+                    <TextField fx:id="passwordField" HBox.hgrow="ALWAYS" />
+                    <Label text="Confirm Password:" />
+                    <TextField fx:id="confirmPasswordField" HBox.hgrow="ALWAYS" />
+                    <Button fx:id="registerButton" onAction="#handleRegister" text="Register" style="-fx-cursor: hand;" HBox.hgrow="ALWAYS" />
+                    <Button fx:id="backButton" onAction="#handleBack" text="Back" style="-fx-cursor: hand;" HBox.hgrow="ALWAYS" />
+                </VBox>
+            </children>
+        </HBox>
+    </children>
+</AnchorPane>
