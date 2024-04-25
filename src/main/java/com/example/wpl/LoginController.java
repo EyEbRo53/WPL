@@ -1,14 +1,10 @@
 package com.example.wpl;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.RadioButton;
-import javafx.scene.control.ToggleGroup;
-import javafx.stage.Stage;
 import javafx.scene.control.TextField;
 import javafx.scene.control.PasswordField;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.Button;
 
 public class LoginController {
@@ -22,11 +18,9 @@ public class LoginController {
     @FXML
     private TextField emailField;
     @FXML
-    private PasswordField passwordField;  // Ensure this is PasswordField in your FXML as well
+    private PasswordField passwordField;
     @FXML
     private TextField visiblePasswordField;
-    @FXML
-    private Button signupButton;
     @FXML
     private Button toggleVisibilityButton;
 
@@ -36,9 +30,8 @@ public class LoginController {
         adminRadioButton.setToggleGroup(roleToggleGroup);
 
         visiblePasswordField.managedProperty().bind(visiblePasswordField.visibleProperty());
-        visiblePasswordField.setVisible(false);
-
         passwordField.managedProperty().bind(passwordField.visibleProperty());
+        visiblePasswordField.setVisible(false);
     }
 
     @FXML
@@ -55,7 +48,6 @@ public class LoginController {
 
     @FXML
     private void handleLogin() {
-        // Determine which field is currently visible and use its text
         String email = emailField.getText();
         String password = passwordField.isVisible() ? passwordField.getText() : visiblePasswordField.getText();
 
@@ -67,13 +59,8 @@ public class LoginController {
         }
     }
 
-
     @FXML
     private void handleSignup() throws Exception {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/wpl/signupPage.fxml"));
-        Parent root = loader.load();
-        Stage stage = (Stage) signupButton.getScene().getWindow();
-        stage.setScene(new Scene(root));
-        stage.show();
+        MainDashboard.loadScene("SignupPage.fxml");
     }
 }

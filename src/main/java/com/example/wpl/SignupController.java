@@ -1,13 +1,9 @@
 package com.example.wpl;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.stage.Stage;
 
 public class SignupController {
 
@@ -38,19 +34,12 @@ public class SignupController {
         }
 
         // Here, insert your actual registration logic (e.g., saving these details in a database)
-        // For now, we assume the registration is successful
         showAlert("Success", "Registration successful.");
-
-        // Optionally, after registration, navigate back to the login page or forward to another page
-        // handleBack(); // if you want to automatically redirect back to the login page
     }
 
     @FXML
     private void handleBack() throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/com/example/wpl/loginPage.fxml"));
-        Stage stage = (Stage) confirmPasswordField.getScene().getWindow(); // Get the current stage
-        stage.setScene(new Scene(root)); // Set scene with login page
-        stage.show(); // Display the stage
+        MainDashboard.loadScene("LoginPage.fxml");
     }
 
     private void showAlert(String title, String content) {
