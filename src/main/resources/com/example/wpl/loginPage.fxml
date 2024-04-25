@@ -4,7 +4,7 @@
 <?import javafx.scene.text.*?>
 <?import javafx.scene.image.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.wpl.LoginController">
+<AnchorPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.wpl.LoginController" prefHeight="576.0" prefWidth="1024.0">
    <children>
       <HBox alignment="CENTER" spacing="15" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0">
          <children>
@@ -22,7 +22,15 @@
                <Label text="Email:" />
                <TextField fx:id="emailField" HBox.hgrow="ALWAYS" />
                <Label text="Password:" />
-               <TextField fx:id="passwordField" HBox.hgrow="ALWAYS" />
+               <HBox spacing="5">
+                  <PasswordField fx:id="passwordField" HBox.hgrow="ALWAYS" managed="true" visible="true"/>
+                  <TextField fx:id="visiblePasswordField" HBox.hgrow="ALWAYS" managed="false" visible="false"/>
+                  <Button fx:id="toggleVisibilityButton" onAction="#togglePasswordVisibility" text="👁"/>
+               </HBox>
+               <HBox spacing="10">
+                  <RadioButton fx:id="customerRadioButton" text="Customer" toggleGroup="$roleToggleGroup" />
+                  <RadioButton fx:id="adminRadioButton" text="Admin" toggleGroup="$roleToggleGroup" />
+               </HBox>
                <Button fx:id="loginButton" onAction="#handleLogin" text="Log in" HBox.hgrow="ALWAYS" style="-fx-cursor: hand;"/>
                <HBox alignment="CENTER" spacing="5">
                   <Label text="Do not have an account?" />

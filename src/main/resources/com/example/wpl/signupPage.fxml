@@ -4,9 +4,9 @@
 <?import javafx.scene.text.*?>
 <?import javafx.scene.image.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.wpl.SignupController">
+<AnchorPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.wpl.SignupController" prefHeight="576.0" prefWidth="1024.0">
     <children>
-        <HBox alignment="CENTER" spacing="15" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0">
+        <HBox alignment="CENTER" spacing="15" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
                 <VBox alignment="CENTER" spacing="10" style="-fx-background-color: #fc4503; -fx-padding: 20;" HBox.hgrow="ALWAYS">
                     <ImageView fitHeight="115.0" fitWidth="159.0" pickOnBounds="true" preserveRatio="true">
@@ -14,11 +14,11 @@
                             <Image url="@../../../Assets/8_1sasa11.jpg"/>
                         </image>
                     </ImageView>
-                    <Text text="Join WoodPecker Logistics" style="-fx-font-size: 20; -fx-font-weight: bold; -fx-fill: #00ff2f;"/>
+                    <Text style="-fx-font-size: 20; -fx-font-weight: bold; -fx-fill: #00ff2f;" text="Join WoodPecker Logistics" />
                     <Label text="Improve your business logistics with us." />
                 </VBox>
                 <VBox alignment="CENTER" spacing="20" HBox.hgrow="ALWAYS">
-                    <Label text="Sign Up" style="-fx-font-size: 24; -fx-font-weight: bold;"/>
+                    <Label style="-fx-font-size: 24; -fx-font-weight: bold;" text="Sign Up" />
                     <Label text="Full Name:" />
                     <TextField fx:id="fullNameField" HBox.hgrow="ALWAYS" />
                     <Label text="Email:" />
@@ -27,8 +27,8 @@
                     <TextField fx:id="passwordField" HBox.hgrow="ALWAYS" />
                     <Label text="Confirm Password:" />
                     <TextField fx:id="confirmPasswordField" HBox.hgrow="ALWAYS" />
-                    <Button fx:id="registerButton" onAction="#handleRegister" text="Register" style="-fx-cursor: hand;" HBox.hgrow="ALWAYS" />
-                    <Button fx:id="backButton" onAction="#handleBack" text="Back" style="-fx-cursor: hand;" HBox.hgrow="ALWAYS" />
+                    <Button fx:id="registerButton" onAction="#handleRegister" style="-fx-cursor: hand;" text="Register" HBox.hgrow="ALWAYS" />
+                    <Button fx:id="backButton" onAction="#handleBack" style="-fx-cursor: hand;" text="Back" HBox.hgrow="ALWAYS" />
                 </VBox>
             </children>
         </HBox>
