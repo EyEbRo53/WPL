@@ -1,20 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.layout.VBox?>
-
-<BorderPane prefHeight="338.0" prefWidth="426.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.wpl.AdminController">
+<BorderPane prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.wpl.AdminController">
+    <!-- Top Bar -->
+    <top>
+        <HBox style="-fx-background-color: #2C3E50; -fx-padding: 10; -fx-alignment: center-left;" prefHeight="50.0">
+            <Label text="Admin Dashboard" style="-fx-text-fill: white; -fx-font-size: 20;" />
+        </HBox>
+    </top>
+    <!-- Left Panel -->
     <left>
-        <VBox spacing="10" style="-fx-padding: 10;">
-            <Button onAction="#loadViewOrders" text="View Orders" />
-            <Button onAction="#loadAssignCargo" text="Assign Cargo" />
+        <VBox style="-fx-background-color: #34495E; -fx-padding: 10;" prefWidth="200.0">
+            <Button text="Dashboard" style="-fx-text-fill: white; -fx-background-color: #3C5060; -fx-font-weight: bold; -fx-pref-width: 200;" />
+            <Button text="View Orders" style="-fx-text-fill: white; -fx-background-color: #3C5060; -fx-font-weight: bold; -fx-pref-width: 200;" />
+            <Button text="Assign Cargo" style="-fx-text-fill: white; -fx-background-color: #3C5060; -fx-font-weight: bold; -fx-pref-width: 200;" />
+            <Button text="Back to login" style="-fx-text-fill: white; -fx-background-color: #3C5060; -fx-font-weight: bold; -fx-pref-width: 200;" />
             <!-- Add more buttons as needed -->
         </VBox>
     </left>
+    <!-- Main Content Area -->
     <center>
-        <StackPane fx:id="contentArea">
+        <StackPane fx:id="contentArea" style="-fx-padding: 20;">
             <!-- Content will be loaded here -->
         </StackPane>
     </center>

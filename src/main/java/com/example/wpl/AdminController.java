@@ -10,6 +10,19 @@ public class AdminController {
     @FXML
     private StackPane contentArea;
 
+    @FXML
+    private void initialize() {
+        loadDefaultView();
+    }
+
+    public void loadDefaultView() {
+        loadContent("AdminDefaultPage.fxml");
+    }
+
+    public void loadDashboard() {
+        // Code to load Dashboard view
+    }
+
     public void loadViewOrders() {
         loadContent("ViewOrders.fxml");
     }
