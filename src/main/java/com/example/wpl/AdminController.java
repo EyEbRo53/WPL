@@ -10,9 +10,17 @@ public class AdminController {
     @FXML
     private StackPane contentArea;
 
+    // Singleton instance
+    private static AdminController instance;
+
     @FXML
     private void initialize() {
+        instance = this;
         loadDefaultView();
+    }
+
+    public static AdminController getInstance() {
+        return instance;
     }
 
     public void loadDefaultView() {
@@ -24,16 +32,17 @@ public class AdminController {
     }
 
     public void loadViewOrders() {
-        loadContent("ViewOrders.fxml");
+        loadContent("AdminViewOrdersPage.fxml");
     }
 
     public void loadAssignCargo() {
         loadContent("AssignCargo.fxml");
     }
 
-    private void loadContent(String fxml) {
+    public void loadContent(String fxml) {
         try {
-            Node node = FXMLLoader.load(getClass().getResource(fxml));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/wpl/" + fxml));
+            Node node = loader.load();
             contentArea.getChildren().setAll(node);
         } catch (Exception e) {
             e.printStackTrace();

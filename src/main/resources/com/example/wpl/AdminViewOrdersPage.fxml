@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.wpl.AdminViewOrdersController" spacing="10" style="-fx-padding: 20;">
+    <Label text="View Orders" style="-fx-font-size: 24; -fx-font-weight: bold;" />
+    <ScrollPane fitToWidth="true" vbarPolicy="ALWAYS">
+        <VBox fx:id="ordersContainer" spacing="10">
+            <!-- This sample order box is for illustrative purposes only.
+                 Actual order boxes should be dynamically generated in the controller. -->
+            <VBox style="-fx-border-color: black; -fx-padding: 10; -fx-cursor: hand;">
+                <Text text="Order ID: 001" />
+                <Text text="Customer Name: John Doe" />
+                <Text text="Order Date: 2024-01-01" />
+                <!-- Add more details as necessary -->
+            </VBox>
+            <!-- Additional orders would be dynamically added here -->
+        </VBox>
+    </ScrollPane>
+</VBox>
