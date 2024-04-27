@@ -1,11 +1,7 @@
 package com.example.wpl;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.TextField;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.ToggleGroup;
-import javafx.scene.control.Button;
+import javafx.scene.control.*;
 
 public class LoginController {
 
@@ -56,17 +52,37 @@ public class LoginController {
         if (email.isEmpty() || password.isEmpty()) {
             System.out.println("Email or password cannot be empty.");
             // Optionally show an error message to the user here.
-        } else if ("example@gmail.com".equals(email) && "123".equals(password) && "Admin".equals(selectedRole.getText())) {
-            // If the credentials match and the admin radio button is selected, navigate to the admin page
-            MainDashboard.loadScene("AdminPagePrimary.fxml");
+        } else if (selectedRole == adminRadioButton) { // Check if the admin radio button is selected
+            // Check if the provided credentials belong to an admin user
+            boolean isAdmin = DB_Functions.checkAdminCredentials(email, password);
+            if (isAdmin) {
+                MainDashboard.loadScene("AdminPagePrimary.fxml");
+            } else {
+                System.out.println("Invalid credentials for admin user.");
+                showAlert("Failed Admin Login","Invalid Admin Credentials");
+                // Optionally show an error message to the user here.
+            }
+        } else if (selectedRole == customerRadioButton) { // Check if the customer radio button is selected
+            boolean isCustomer = DB_Functions.checkCustomerCredentials(email, password);
+            if (isCustomer) {
+                MainDashboard.loadScene("AdminPagePrimary.fxml"); // change this to customer page later
+            } else {
+                showAlert("Failed Customer Login","Invalid Customer Credentials");
+            }
         } else {
-            System.out.println("Invalid credentials or role not selected as admin.");
-            // Optionally show an error message to the user here.
+            System.out.println("Select a role to login.");
         }
     }
 
     @FXML
     private void handleSignup() throws Exception {
         MainDashboard.loadScene("SignupPage.fxml");
+    }
+    private void showAlert(String title, String content) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+        alert.showAndWait();
     }
 }
