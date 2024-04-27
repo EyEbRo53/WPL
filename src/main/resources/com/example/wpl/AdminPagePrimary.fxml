@@ -16,7 +16,7 @@
         <VBox style="-fx-background-color: #34495E; -fx-padding: 10;" prefWidth="200.0">
             <Button text="Dashboard" style="-fx-text-fill: white; -fx-background-color: #3C5060; -fx-font-weight: bold; -fx-pref-width: 200;" />
             <Button text="View Orders" style="-fx-text-fill: white; -fx-background-color: #3C5060; -fx-font-weight: bold; -fx-pref-width: 200;" onMouseClicked="#loadViewOrders" />
-            <Button text="Assign Cargo" style="-fx-text-fill: white; -fx-background-color: #3C5060; -fx-font-weight: bold; -fx-pref-width: 200;" />
+            <Button text="View Records" style="-fx-text-fill: white; -fx-background-color: #3C5060; -fx-font-weight: bold; -fx-pref-width: 200;" />
             <Button text="Back to login" style="-fx-text-fill: white; -fx-background-color: #3C5060; -fx-font-weight: bold; -fx-pref-width: 200;" />
             <!-- Add more buttons as needed -->
         </VBox>
