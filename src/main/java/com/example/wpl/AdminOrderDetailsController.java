@@ -1,8 +1,13 @@
 package com.example.wpl;
 
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import javafx.scene.layout.StackPane;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 
 public class AdminOrderDetailsController {
 
@@ -14,20 +19,59 @@ public class AdminOrderDetailsController {
     private Label orderDateLabel;
     @FXML
     private Label dealDescriptionLabel;
+    @FXML
+    private TableView<Item> orderDetailsTable;
+    @FXML
+    private TableColumn<Item, String> itemNameColumn;
+    @FXML
+    private TableColumn<Item, Integer> quantityColumn;
+    @FXML
+    private TableColumn<Item, Double> weightColumn;
+    @FXML
+    private TableColumn<Item, String> vehicleAssignmentColumn;
 
-    // Reference to the content area where pages are loaded
-    private StackPane contentArea;
+    // Model class for table
+    public static class Item {
+        private final SimpleStringProperty name;
+        private final SimpleIntegerProperty quantity;
+        private final SimpleDoubleProperty weight;
 
-    public void setOrderDetails(String orderId, String customerName, String orderDate, String description) {
-        orderIdLabel.setText("Order ID: " + orderId);
-        customerNameLabel.setText("Customer Name: " + customerName);
-        orderDateLabel.setText("Order Date: " + orderDate);
-        dealDescriptionLabel.setText("Description: " + description);
+        public Item(String name, int quantity, double weight) {
+            this.name = new SimpleStringProperty(name);
+            this.quantity = new SimpleIntegerProperty(quantity);
+            this.weight = new SimpleDoubleProperty(weight);
+        }
+
+        // Getters
+        public String getName() { return name.get(); }
+        public int getQuantity() { return quantity.get(); }
+        public double getWeight() { return weight.get(); }
+
+        // Setters
+        public void setName(String value) { name.set(value); }
+        public void setQuantity(int value) { quantity.set(value); }
+        public void setWeight(double value) { weight.set(value); }
     }
 
-    // Method to set the content area, this should be called when the controller is initialized
-    public void setContentArea(StackPane contentArea) {
-        this.contentArea = contentArea;
+    @FXML
+    public void initialize() {
+        itemNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+        quantityColumn.setCellValueFactory(new PropertyValueFactory<>("quantity"));
+        weightColumn.setCellValueFactory(new PropertyValueFactory<>("weight"));
+
+        // Load data for testing
+        loadTestData();
+    }
+
+    private void loadTestData() {
+        orderDetailsTable.getItems().add(new Item("Widget", 10, 2.5));
+        orderDetailsTable.getItems().add(new Item("Gadget", 20, 1.5));
+    }
+
+    @FXML
+    private void handleConfirmOrder() {
+        System.out.println("Order Confirmed");
+        // Add your logic for confirming the order here
     }
 
     @FXML
@@ -40,6 +84,5 @@ public class AdminOrderDetailsController {
             System.out.println("Failed to load view orders page.");
         }
     }
-
 
 }

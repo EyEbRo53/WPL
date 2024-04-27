@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
 
-<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.wpl.AdminOrderDetailsController" spacing="10" style="-fx-padding: 20;">
-    <Label text="Order Details" style="-fx-font-size: 24; -fx-font-weight: bold;" />
-    <Label fx:id="orderIdLabel" text="Order ID: " />
-    <Label fx:id="customerNameLabel" text="Customer Name: " />
-    <Label fx:id="orderDateLabel" text="Order Date: " />
-    <Label fx:id="dealDescriptionLabel" text="Description: " />
-    <Button text="Back" onAction="#handleBack" />
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.VBox?>
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.wpl.AdminOrderDetailsController" spacing="20" style="-fx-padding: 20;">
+    <Label text="Order Details" style="-fx-font-size: 24; -fx-font-weight: bold;"/>
+    <TableView fx:id="orderDetailsTable">
+        <columns>
+            <TableColumn text="Item Name" fx:id="itemNameColumn" />
+            <TableColumn text="Quantity" fx:id="quantityColumn" />
+            <TableColumn text="Weight" fx:id="weightColumn"/>
+            <TableColumn text="Vehicle Assignment" fx:id="vehicleAssignmentColumn"/>
+        </columns>
+    </TableView>
+    <Button text="Confirm Order" onAction="#handleConfirmOrder"/>
+    <Button text="Back" onAction="#handleBack" style="-fx-background-color: lightgrey; -fx-padding: 10;"/>
 </VBox>

@@ -5,6 +5,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.layout.StackPane;
 
+import static com.example.wpl.MainDashboard.loadScene;
+
 public class AdminController {
 
     @FXML
@@ -27,16 +29,13 @@ public class AdminController {
         loadContent("AdminDefaultPage.fxml");
     }
 
-    public void loadDashboard() {
-        // Code to load Dashboard view
-    }
 
     public void loadViewOrders() {
         loadContent("AdminViewOrdersPage.fxml");
     }
 
-    public void loadAssignCargo() {
-        loadContent("AssignCargo.fxml");
+    public void logout() throws Exception {
+        loadScene("LoginPage.fxml");
     }
 
     public void loadContent(String fxml) {

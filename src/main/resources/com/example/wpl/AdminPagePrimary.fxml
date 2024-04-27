@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
-<?import javafx.geometry.Insets?>
 
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
 <BorderPane prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.wpl.AdminController">
     <!-- Top Bar -->
     <top>
@@ -14,10 +16,9 @@
     <!-- Left Panel -->
     <left>
         <VBox style="-fx-background-color: #34495E; -fx-padding: 10;" prefWidth="200.0">
-            <Button text="Dashboard" style="-fx-text-fill: white; -fx-background-color: #3C5060; -fx-font-weight: bold; -fx-pref-width: 200;" />
             <Button text="View Orders" style="-fx-text-fill: white; -fx-background-color: #3C5060; -fx-font-weight: bold; -fx-pref-width: 200;" onMouseClicked="#loadViewOrders" />
             <Button text="View Records" style="-fx-text-fill: white; -fx-background-color: #3C5060; -fx-font-weight: bold; -fx-pref-width: 200;" />
-            <Button text="Back to login" style="-fx-text-fill: white; -fx-background-color: #3C5060; -fx-font-weight: bold; -fx-pref-width: 200;" />
+            <Button text="Logout" style="-fx-text-fill: white; -fx-background-color: #3C5060; -fx-font-weight: bold; -fx-pref-width: 200;" onMouseClicked="#logout"/>
             <!-- Add more buttons as needed -->
         </VBox>
     </left>
