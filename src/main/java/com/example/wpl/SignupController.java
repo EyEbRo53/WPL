@@ -17,7 +17,7 @@ public class SignupController {
     private TextField confirmPasswordField;
 
     @FXML
-    private void handleRegister() {
+    private void handleRegister() throws Exception{
         String fullName = fullNameField.getText().trim();
         String email = emailField.getText().trim();
         String password = passwordField.getText().trim();
@@ -33,8 +33,19 @@ public class SignupController {
             return;
         }
 
-        // Here, insert your actual registration logic (e.g., saving these details in a database)
-        showAlert("Success", "Registration successful.");
+        //Actual registration logic (e.g., saving these details in a database)
+        int signUp_result = DB_Functions.signUp(fullName, email, password);
+
+        if (signUp_result == 1){
+            showAlert("Success", "Registration Successful.");
+            handleBack();
+        }
+        else if(signUp_result==0)
+            showAlert("Failure", "Registration failed: Error.");
+        else if(signUp_result==2)
+            showAlert("Failure", "Email is already in use.");
+        else if(signUp_result==3)
+            showAlert("Failure", "Email not in valid format: Please enter a valid email address ending with '@gmail.com' and containing at least one character before it.");
     }
 
     @FXML
