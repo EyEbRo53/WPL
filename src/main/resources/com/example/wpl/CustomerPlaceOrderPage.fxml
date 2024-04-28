@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.wpl.CustomerPlaceOrderPageController" spacing="10" style="-fx-padding: 20;">
+    <HBox spacing="10">
+        <TextField fx:id="itemNameField" promptText="Item Name" />
+        <TextField fx:id="itemQuantityField" promptText="Item Quantity" />
+        <TextField fx:id="itemWeightField" promptText="Weight" />
+        <Button fx:id="addButton" text="+" onAction="#handleAddItem" />
+    </HBox>
+    <TableView fx:id="itemsTable" VBox.vgrow="ALWAYS">
+        <columns>
+            <TableColumn fx:id="itemNameColumn" text="Item Name" />
+            <TableColumn fx:id="itemQuantityColumn" text="Item Quantity" />
+            <TableColumn fx:id="itemWeightColumn" text="Item Weight" />
+        </columns>
+    </TableView>
+    <Label fx:id="messageLabel" style="-fx-font-size: 16; -fx-text-fill: green;" visible="false" />
+    <HBox alignment="BOTTOM_RIGHT">
+        <Button fx:id="confirmButton" text="Confirm" onAction="#handleConfirmOrder" />
+    </HBox>
+</VBox>

@@ -59,7 +59,10 @@ public class LoginController {
         } else if ("example@gmail.com".equals(email) && "123".equals(password) && "Admin".equals(selectedRole.getText())) {
             // If the credentials match and the admin radio button is selected, navigate to the admin page
             MainDashboard.loadScene("AdminPagePrimary.fxml");
-        } else {
+        } else if ("customer@gmail.com".equals(email) && "123".equals(password) && "Customer".equals(selectedRole.getText())) {
+            MainDashboard.loadScene("CustomerPagePrimary.fxml");
+        }
+        else {
             System.out.println("Invalid credentials or role not selected as admin.");
             // Optionally show an error message to the user here.
         }

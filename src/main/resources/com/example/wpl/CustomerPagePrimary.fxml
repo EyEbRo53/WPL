@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.wpl.CustomerController">
+    <!-- Top Bar -->
+    <top>
+        <HBox style="-fx-background-color: #2C3E50; -fx-padding: 10; -fx-alignment: center-left;" prefHeight="50.0">
+            <Label text="Customer Dashboard" style="-fx-text-fill: white; -fx-font-size: 20;" />
+        </HBox>
+    </top>
+    <!-- Left Panel -->
+    <left>
+        <VBox style="-fx-background-color: #34495E; -fx-padding: 10;" prefWidth="200.0">
+            <Button fx:id="placeOrder" onAction="#loadPlaceOrder" text="Place Order" style="-fx-text-fill: white; -fx-background-color: #3C5060; -fx-font-weight: bold; -fx-pref-width: 200;" />
+            <Button fx:id="viewActiveOrders" onAction="#loadActiveViewOrder" text="View Active Order" style="-fx-text-fill: white; -fx-background-color: #3C5060; -fx-font-weight: bold; -fx-pref-width: 200;" />
+            <Button fx:id="viewPastOrders" onAction="#loadViewPastOrders" text="View Past Orders" style="-fx-text-fill: white; -fx-background-color: #3C5060; -fx-font-weight: bold; -fx-pref-width: 200;" />
+            <Button fx:id="gotoLoginPage" onAction="#loadViewLoginPage" text="Back to login" style="-fx-text-fill: white; -fx-background-color: #3C5060; -fx-font-weight: bold; -fx-pref-width: 200;" />
+            <!-- Add more buttons as needed -->
+        </VBox>
+    </left>
+    <!-- Main Content Area -->
+    <center>
+        <StackPane fx:id="contentArea" style="-fx-padding: 20;">
+            <!-- Content will be loaded here -->
+        </StackPane>
+    </center>
+</BorderPane>

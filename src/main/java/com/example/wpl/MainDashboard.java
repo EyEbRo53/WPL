@@ -6,6 +6,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.net.URL;
+
 public class MainDashboard extends Application {
 
     private static Stage primaryStage; // Single stage instance
@@ -24,10 +26,20 @@ public class MainDashboard extends Application {
         primaryStage.show();
     }
 
+//    public static void loadScene(String fxml) throws Exception {
+//        Parent root = FXMLLoader.load(MainDashboard.class.getResource("/com/example/wpl/" + fxml));
+//        primaryStage.setScene(new Scene(root, 1024, 576)); // Consistent size for all scenes
+//    }
+
     public static void loadScene(String fxml) throws Exception {
-        Parent root = FXMLLoader.load(MainDashboard.class.getResource("/com/example/wpl/" + fxml));
+        URL url = MainDashboard.class.getResource("/com/example/wpl/" + fxml);
+        if (url == null) {
+            throw new IllegalArgumentException("Cannot find resource: " + fxml);
+        }
+        Parent root = FXMLLoader.load(url);
         primaryStage.setScene(new Scene(root, 1024, 576)); // Consistent size for all scenes
     }
+
 
     public static void main(String[] args) {
         launch(args);

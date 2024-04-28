@@ -4,7 +4,7 @@
 <?import javafx.scene.text.*?>
 
 <VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.wpl.AdminViewOrdersController" spacing="10" style="-fx-padding: 20;">
-    <Label text="View Orders" style="-fx-font-size: 24; -fx-font-weight: bold;" />
+    <Label text="Orders Record" style="-fx-font-size: 24; -fx-font-weight: bold;" />
     <ScrollPane fitToWidth="true" vbarPolicy="ALWAYS">
         <VBox fx:id="ordersContainer" spacing="10">
 
