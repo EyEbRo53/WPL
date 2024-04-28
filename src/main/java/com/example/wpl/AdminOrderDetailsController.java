@@ -9,6 +9,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
+import java.util.ArrayList;
+
 public class AdminOrderDetailsController {
 
     @FXML
@@ -18,9 +20,8 @@ public class AdminOrderDetailsController {
     @FXML
     private Label orderDateLabel;
     @FXML
-    private Label dealDescriptionLabel;
 
-    private static String orderId;
+    private static int orderId;
     private static String customerName;
     private static String orderDate;
     @FXML
@@ -56,40 +57,39 @@ public class AdminOrderDetailsController {
         public void setQuantity(int value) { quantity.set(value); }
         public void setWeight(double value) { weight.set(value); }
     }
-
-    public static void setOrderDetails(String id, String name, String date, String desc) {
+    static public void setOrderDetails(int id, String name, String date, String desc) {
         orderId = id;
         customerName = name;
         orderDate = date;
+    }
+    public void updateLabels() {
+        orderIdLabel.setText("Order ID: " + orderId);
+        customerNameLabel.setText("Customer Name: " + customerName);
+        orderDateLabel.setText("Order Date: " + orderDate);
     }
 
 
     @FXML
     public void initialize() {
+        // Set up the table columns using PropertyValueFactory
         itemNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         quantityColumn.setCellValueFactory(new PropertyValueFactory<>("quantity"));
         weightColumn.setCellValueFactory(new PropertyValueFactory<>("weight"));
+        // vehicleAssignmentColumn should also be set up if it's part of your table
 
-        // Load data for testing
-        loadTestData();
+        updateLabels();
 
-        // Set the labels with stored order details
-        // Set the labels with stored order details
-        if (orderId != null && !orderId.isEmpty()) {
-            orderIdLabel.setText("Order ID: " + orderId);
-        }
-        if (customerName != null && !customerName.isEmpty()) {
-            customerNameLabel.setText("Customer Name: " + customerName);
-        }
-        if (orderDate != null && !orderDate.isEmpty()) {
-            orderDateLabel.setText("Order Date: " + orderDate);
+        // Assuming orderId is available at this point
+        ArrayList<Item> items = DB_Admin.getOrderItemDetails(orderId);
+
+        if (items != null && !items.isEmpty()) {
+            // Now add the fetched items to the table view
+            orderDetailsTable.getItems().setAll(items);
+        } else {
+            System.out.println("No items found for the order.");
         }
     }
 
-    private void loadTestData() {
-        orderDetailsTable.getItems().add(new Item("Widget", 10, 2.5));
-        orderDetailsTable.getItems().add(new Item("Gadget", 20, 1.5));
-    }
 
     @FXML
     private void handleConfirmOrder() {

@@ -4,12 +4,18 @@ import javafx.fxml.FXML;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
-public class CustomerPastOrdersController {
+public class CustomerPastOrdersController implements EmailHandler  {
     @FXML
     private VBox ordersContainer;
     @FXML
     private void initialize() {
         loadOrders();
+    }
+    private String email;
+
+    public void setEmail(String s){
+        email = s;
+        System.out.print(email);
     }
 
     private void loadOrders() {

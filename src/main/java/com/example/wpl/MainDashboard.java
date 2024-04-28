@@ -27,14 +27,36 @@ public class MainDashboard extends Application {
     }
 
 
-    public static void loadScene(String fxml) throws Exception {
-        URL url = MainDashboard.class.getResource("/com/example/wpl/" + fxml);
-        if (url == null) {
-            throw new IllegalArgumentException("Cannot find resource: " + fxml);
+//    public static void loadScene(String fxml) throws Exception {
+//        URL url = MainDashboard.class.getResource("/com/example/wpl/" + fxml);
+//        if (url == null) {
+//            throw new IllegalArgumentException("Cannot find resource: " + fxml);
+//        }
+//        Parent root = FXMLLoader.load(url);
+//        primaryStage.setScene(new Scene(root, 1024, 576)); // Consistent size for all scenes
+//    }
+        public static void loadScene(String fxml ) throws Exception{
+        loadScene(fxml, null);
         }
-        Parent root = FXMLLoader.load(url);
+
+         public static void loadScene(String fxml, String email ) throws Exception {
+            URL url = MainDashboard.class.getResource("/com/example/wpl/" + fxml);
+            if (url == null) {
+            throw new IllegalArgumentException("Cannot find resource: " + fxml);
+         }
+            FXMLLoader loader = new FXMLLoader(url);
+            Parent root = loader.load();
+            if (email != null) {
+                 if (loader.getController() instanceof CustomerController) {
+                        ((CustomerController) loader.getController()).setEmail(email);
+                     ((CustomerController) loader.getController()).getEmail();
+             }
+        // Add similar checks for other controllers if needed
+        }
+
         primaryStage.setScene(new Scene(root, 1024, 576)); // Consistent size for all scenes
-    }
+        }
+
 
 
     public static void main(String[] args) {

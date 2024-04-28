@@ -8,7 +8,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.animation.PauseTransition;
 import javafx.util.Duration;
 
-public class CustomerPlaceOrderController {
+public class CustomerPlaceOrderController implements EmailHandler  {
 
     @FXML
     private TextField itemNameField;
@@ -28,7 +28,11 @@ public class CustomerPlaceOrderController {
     private TableColumn<Item, Double> itemWeightColumn;
     @FXML
     private Label messageLabel;
+    private String email;
 
+    public void setEmail(String s){
+        email = s;
+    }
     // Static items list shared across all instances of this controller
     private static ObservableList<Item> items = FXCollections.observableArrayList();
 
@@ -40,7 +44,32 @@ public class CustomerPlaceOrderController {
         itemsTable.setItems(items); // Set the static items list to the table
         setupDeleteButtonColumn();
     }
+    private void addButtonClicked() {
+        // Get input values from text fields
+        String itemName = itemNameField.getText();
+        int itemQuantity = Integer.parseInt(itemQuantityField.getText());
+        double itemWeight = Double.parseDouble(itemWeightField.getText());
 
+        // Validate input values
+        if (itemName.isEmpty() || itemQuantity <= 0 || itemWeight <= 0) {
+            messageLabel.setText("Please fill in all fields correctly.");
+            return;
+        }
+
+        // Create a new Item object
+        Item newItem = new Item(itemName, itemQuantity, itemWeight);
+
+        // Add the new item to the items list
+        items.add(newItem);
+
+        // Clear input fields
+        itemNameField.clear();
+        itemQuantityField.clear();
+        itemWeightField.clear();
+
+        // Clear message label
+        messageLabel.setText("");
+    }
     @FXML
     private void handleAddItem() {
         String itemName = itemNameField.getText();
@@ -48,6 +77,12 @@ public class CustomerPlaceOrderController {
         double itemWeight = Double.parseDouble(itemWeightField.getText());
 
         Item newItem = new Item(itemName, itemQuantity, itemWeight);
+
+        //String itemDetails = String.format("Item: %s, Quantity: %d, Weight: %.2f", itemName, itemQuantity, itemWeight);
+
+        //System.out.println(itemDetails); // Print item details
+
+
         items.add(newItem); // Add to the static list
 
         itemNameField.clear();
@@ -57,8 +92,10 @@ public class CustomerPlaceOrderController {
 
     @FXML
     private void handleConfirmOrder() {
-        items.clear(); // Clear the static items from the table
 
+        DB_CustomerFunctions.AddOrder(items,email);
+
+        items.clear(); // Clear the static items from the table
         messageLabel.setText("Order placed successfully.");
         messageLabel.setVisible(true);
         itemsTable.setVisible(false);
