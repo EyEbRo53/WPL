@@ -19,6 +19,10 @@ public class AdminOrderDetailsController {
     private Label orderDateLabel;
     @FXML
     private Label dealDescriptionLabel;
+
+    private static String orderId;
+    private static String customerName;
+    private static String orderDate;
     @FXML
     private TableView<Item> orderDetailsTable;
     @FXML
@@ -53,6 +57,13 @@ public class AdminOrderDetailsController {
         public void setWeight(double value) { weight.set(value); }
     }
 
+    public static void setOrderDetails(String id, String name, String date, String desc) {
+        orderId = id;
+        customerName = name;
+        orderDate = date;
+    }
+
+
     @FXML
     public void initialize() {
         itemNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -61,6 +72,18 @@ public class AdminOrderDetailsController {
 
         // Load data for testing
         loadTestData();
+
+        // Set the labels with stored order details
+        // Set the labels with stored order details
+        if (orderId != null && !orderId.isEmpty()) {
+            orderIdLabel.setText("Order ID: " + orderId);
+        }
+        if (customerName != null && !customerName.isEmpty()) {
+            customerNameLabel.setText("Customer Name: " + customerName);
+        }
+        if (orderDate != null && !orderDate.isEmpty()) {
+            orderDateLabel.setText("Order Date: " + orderDate);
+        }
     }
 
     private void loadTestData() {

@@ -3,6 +3,7 @@ package com.example.wpl;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 
 import static com.example.wpl.MainDashboard.loadScene;
@@ -34,6 +35,10 @@ public class AdminController {
         loadContent("AdminViewOrdersPage.fxml");
     }
 
+    public void loadPastRecords(){
+        loadContent("AdminPastRecordsPage.fxml");
+    }
+
     public void logout() throws Exception {
         loadScene("LoginPage.fxml");
     }
@@ -48,4 +53,6 @@ public class AdminController {
             // Handle the exception, perhaps show an error message
         }
     }
+
+
 }

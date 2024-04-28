@@ -40,6 +40,7 @@ public class AdminViewOrdersController {
     @FXML
     private void handleViewOrderDetails(String orderId, String customerName, String orderDate, String description) {
         try {
+            AdminOrderDetailsController.setOrderDetails(orderId, customerName, orderDate, description);
             AdminController.getInstance().loadContent("AdminOrderDetailsPage.fxml");
         } catch (Exception e) {
             e.printStackTrace();

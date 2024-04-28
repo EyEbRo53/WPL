@@ -3,12 +3,10 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.wpl.AdminViewOrdersController" spacing="10" style="-fx-padding: 20;">
-    <Label text="Orders Record" style="-fx-font-size: 24; -fx-font-weight: bold;" />
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.wpl.AdminPastRecordsController" spacing="10" style="-fx-padding: 20;">
+    <Label text="Past Orders" style="-fx-font-size: 24; -fx-font-weight: bold;" />
     <ScrollPane fitToWidth="true" vbarPolicy="ALWAYS">
         <VBox fx:id="ordersContainer" spacing="10">
-
-            <!-- Additional orders would be dynamically added here -->
         </VBox>
     </ScrollPane>
 </VBox>

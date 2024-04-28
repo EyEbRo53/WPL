@@ -8,7 +8,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.animation.PauseTransition;
 import javafx.util.Duration;
 
-public class CustomerPlaceOrderPageController {
+public class CustomerPlaceOrderController {
 
     @FXML
     private TextField itemNameField;

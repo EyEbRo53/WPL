@@ -26,10 +26,6 @@ public class MainDashboard extends Application {
         primaryStage.show();
     }
 
-//    public static void loadScene(String fxml) throws Exception {
-//        Parent root = FXMLLoader.load(MainDashboard.class.getResource("/com/example/wpl/" + fxml));
-//        primaryStage.setScene(new Scene(root, 1024, 576)); // Consistent size for all scenes
-//    }
 
     public static void loadScene(String fxml) throws Exception {
         URL url = MainDashboard.class.getResource("/com/example/wpl/" + fxml);
