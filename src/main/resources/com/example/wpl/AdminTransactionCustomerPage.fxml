@@ -4,16 +4,15 @@
 <?import javafx.scene.text.*?>
 <VBox xmlns="http://javafx.com/javafx/21"
       xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.example.wpl.AdminTransactionCompanyController"
+      fx:controller="com.example.wpl.AdminTransactionCustomerController"
       spacing="10" style="-fx-padding: 20;">
-    <Label text="Transaction Company Information" style="-fx-font-size: 24; -fx-font-weight: bold;" />
+    <Label text="Transaction Customer Information" style="-fx-font-size: 24; -fx-font-weight: bold;" />
     <ScrollPane fitToWidth="true" vbarPolicy="ALWAYS">
         <VBox fx:id="transactionContainer" spacing="10">
             <TableView fx:id="transactionTable">
                 <columns>
                     <TableColumn fx:id="transactionIdColumn" text="Transaction ID" prefWidth="100" />
                     <TableColumn fx:id="dealIdColumn" text="Deal ID" prefWidth="90" />
-                    <TableColumn fx:id="companyIdColumn" text="Company ID" prefWidth="100" />
                     <TableColumn fx:id="transactionAmountColumn" text="Transaction Amount" prefWidth="130" />
                     <TableColumn fx:id="dateAndTimeColumn" text="Date and Time" prefWidth="130" />
                     <TableColumn fx:id="paymentMethodColumn" text="Payment Method" prefWidth="150" />
@@ -25,7 +24,6 @@
     <!-- Add Transaction Form -->
     <HBox spacing="10">
         <TextField fx:id="dealIdField" promptText="Deal ID" />
-        <TextField fx:id="companyIdField" promptText="Company ID" />
         <TextField fx:id="transactionAmountField" promptText="Transaction Amount" />
         <TextField fx:id="dateAndTimeField" promptText="Date and Time" />
         <TextField fx:id="paymentMethodField" promptText="Payment Method" />

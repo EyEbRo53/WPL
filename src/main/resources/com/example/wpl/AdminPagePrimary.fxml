@@ -19,7 +19,8 @@
             <Button text="View Records" style="-fx-text-fill: white; -fx-background-color: #3C5060; -fx-font-weight: bold; -fx-pref-width: 200;" onMouseClicked="#loadPastRecords"/>
             <Button text="Vehicle Information" style="-fx-text-fill: white; -fx-background-color: #3C5060; -fx-font-weight: bold; -fx-pref-width: 200;" onMouseClicked="#loadVehiclePage"/>
             <Button text="View Transport Company" style="-fx-text-fill: white; -fx-background-color: #3C5060; -fx-font-weight: bold; -fx-pref-width: 200;" onMouseClicked="#loadTransportCompany"/>
-            <Button text="View Transaction Company" style="-fx-text-fill: white; -fx-background-color: #3C5060; -fx-font-weight: bold; -fx-pref-width: 200;" onMouseClicked="#loadTransactionCompany"/>
+            <Button text="View Company Transactions" style="-fx-text-fill: white; -fx-background-color: #3C5060; -fx-font-weight: bold; -fx-pref-width: 200;" onMouseClicked="#loadTransactionCompany"/>
+            <Button text="View Customer Transactions" style="-fx-text-fill: white; -fx-background-color: #3C5060; -fx-font-weight: bold; -fx-pref-width: 200;" onMouseClicked="#loadTransactionCustomer"/>
             <Button text="Logout" style="-fx-text-fill: white; -fx-background-color: #3C5060; -fx-font-weight: bold; -fx-pref-width: 200;" onMouseClicked="#logout"/>
 
             <!-- Add more buttons as needed -->

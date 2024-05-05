@@ -4,7 +4,8 @@
 <?import javafx.geometry.Insets?>
 
 <VBox xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.wpl.TransportController" spacing="10" style="-fx-padding: 20;">
-    <HBox spacing="10">
+    <Label text="Vehicle Information" style="-fx-font-size: 24; -fx-font-weight: bold;" />
+    <HBox spacing="10" alignment="CENTER_RIGHT">
         <TextField fx:id="numberPlateField" promptText="Number Plate" />
         <TextField fx:id="rentedByField" promptText="Rented By" /> <!-- Changed from modelNumberField -->
         <Button fx:id="addButton" text="Add" onAction="#handleAddVehicle" />

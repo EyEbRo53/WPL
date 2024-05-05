@@ -8,12 +8,10 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
-public class AdminTransactionCompanyController {
+public class AdminTransactionCustomerController {
 
     @FXML
     private TextField dealIdField;
-    @FXML
-    private TextField companyIdField;
     @FXML
     private TextField transactionAmountField;
     @FXML
@@ -29,8 +27,6 @@ public class AdminTransactionCompanyController {
     @FXML
     private TableColumn<TransactionCompany, Integer> dealIdColumn; // Changed to Integer
     @FXML
-    private TableColumn<TransactionCompany, Integer> companyIdColumn; // Changed to Integer
-    @FXML
     private TableColumn<TransactionCompany, String> transactionAmountColumn;
     @FXML
     private TableColumn<TransactionCompany, String> dateAndTimeColumn;
@@ -45,7 +41,6 @@ public class AdminTransactionCompanyController {
         // Set up columns
         transactionIdColumn.setCellValueFactory(new PropertyValueFactory<>("transactionId"));
         dealIdColumn.setCellValueFactory(new PropertyValueFactory<>("dealId"));
-        companyIdColumn.setCellValueFactory(new PropertyValueFactory<>("companyId")); // Changed to Integer
         transactionAmountColumn.setCellValueFactory(new PropertyValueFactory<>("transactionAmount"));
         dateAndTimeColumn.setCellValueFactory(new PropertyValueFactory<>("dateAndTime"));
         paymentMethodColumn.setCellValueFactory(new PropertyValueFactory<>("paymentMethod"));
@@ -61,22 +56,20 @@ public class AdminTransactionCompanyController {
     private void fetchExistingTransactions() {
         // Call a method in DB_Admin to retrieve existing transaction data from the database
         // and populate the transactions list with it
-        ArrayList<TransactionCompany> existingTransactions = DB_Admin.getExistingCompanyTransactions();
+        ArrayList<TransactionCompany> existingTransactions = DB_Admin.getExistingCustomerTransactions();
         transactions.addAll(existingTransactions);
     }
 
     @FXML
     private void handleAddTransaction() throws SQLException {
         int dealId;
-        int companyId;
         try {
             dealId = Integer.parseInt(dealIdField.getText());
-            companyId = Integer.parseInt(companyIdField.getText());
         } catch (NumberFormatException e) {
             // Handle invalid input
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText(null);
-            alert.setContentText("Please enter valid IDs.");
+            alert.setContentText("Please enter a valid Deal ID.");
             alert.showAndWait();
             return;
         }
@@ -95,10 +88,10 @@ public class AdminTransactionCompanyController {
         }
 
         // Create a new TransactionCompany object
-        TransactionCompany newTransaction = new TransactionCompany(DB_Admin.getLastTransactionId()+1, dealId,companyId, transactionAmount, dateAndTime, paymentMethod);
+        TransactionCompany newTransaction = new TransactionCompany(DB_Admin.getLastCustomerTransactionId() + 1, dealId, transactionAmount, dateAndTime, paymentMethod);
 
         // Add the new transaction to the transactions list
-        if (DB_Admin.addCompanyTransaction(newTransaction)) {
+        if (DB_Admin.addCustomerTransaction(newTransaction)) {
             transactions.add(newTransaction);
         } else {
             // If adding to the list fails, display an error alert
@@ -107,10 +100,8 @@ public class AdminTransactionCompanyController {
             alert.setContentText("Failed to add transaction to the list.");
             alert.showAndWait();
         }
-
         // Clear input fields
         dealIdField.clear();
-        companyIdField.clear();
         transactionAmountField.clear();
         dateAndTimeField.clear();
         paymentMethodField.clear();
@@ -119,15 +110,13 @@ public class AdminTransactionCompanyController {
     public static class TransactionCompany {
         private int transactionId; // Changed to int
         private int dealId; // Changed to int
-        private int companyId; // Changed to int
         private String transactionAmount;
         private String dateAndTime;
         private String paymentMethod;
 
-        public TransactionCompany(int t,int dealId, int companyId, String transactionAmount, String dateAndTime, String paymentMethod) {
+        public TransactionCompany(int t, int dealId, String transactionAmount, String dateAndTime, String paymentMethod) {
             transactionId = t;
             this.dealId = dealId;
-            this.companyId = companyId;
             this.transactionAmount = transactionAmount;
             this.dateAndTime = dateAndTime;
             this.paymentMethod = paymentMethod;
@@ -139,10 +128,6 @@ public class AdminTransactionCompanyController {
 
         public int getDealId() {
             return dealId;
-        }
-
-        public int getCompanyId() {
-            return companyId;
         }
 
         public String getTransactionAmount() {

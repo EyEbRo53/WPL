@@ -412,4 +412,178 @@ import java.util.ArrayList;
              return false;
          }
      }
+     public static boolean addCompanyTransaction(AdminTransactionCompanyController.TransactionCompany transaction) throws SQLException {
+         // Check if the dealId exists in the Deal table
+
+         if (!dealExists(transaction.getDealId())) {
+             System.out.println("Deal ID does not exist.");
+             return false;
+         }
+
+         // Check if the companyId exists in the TransportCompany table
+         if (!companyExists(transaction.getCompanyId())) {
+             System.out.println("Company ID does not exist.");
+             return false;
+         }
+
+         // Get the last transaction ID from the database
+
+
+         // Increment the last transaction ID by 1
+
+         // Insert the transaction into the database
+         try (Connection connection = DriverManager.getConnection(url);
+              PreparedStatement statement = connection.prepareStatement("INSERT INTO TransactionCompany (TID, DealID, CompanyID, TransactionAmount, DateAndTime, PaymentMethod) VALUES (?, ?, ?, ?, ?, ?)"))
+         {
+             statement.setInt(1, transaction.getTransactionId());
+             statement.setInt(2, transaction.getDealId());
+             statement.setInt(3, transaction.getCompanyId());
+             statement.setString(4, transaction.getTransactionAmount());
+             statement.setString(5, transaction.getDateAndTime());
+             statement.setString(6, transaction.getPaymentMethod());
+
+             // Execute the insert query
+             int rowsAffected = statement.executeUpdate();
+             return rowsAffected > 0;
+         }
+         catch (SQLException e) {
+             System.out.println("Error inserting transaction: " + e.getMessage());
+             return false;
+         }
+     }
+
+     // Method to retrieve the last transaction ID from the database
+     public static int getLastTransactionId() throws SQLException {
+         int lastTransactionId = 0;
+         try (Connection connection = DriverManager.getConnection(url);
+              PreparedStatement statement = connection.prepareStatement("SELECT MAX(TID) AS LastTransactionId FROM TransactionCompany");
+              ResultSet resultSet = statement.executeQuery()) {
+             if (resultSet.next()) {
+                 lastTransactionId = resultSet.getInt("LastTransactionId");
+             }
+         }
+         return lastTransactionId;
+     }
+     private static boolean dealExists(int dealId) throws SQLException {
+         // Check if the dealId exists in the Deal table
+         try (Connection connection = DriverManager.getConnection(url);
+              PreparedStatement statement = connection.prepareStatement("SELECT COUNT(DealID) AS dealCount FROM Deal WHERE DealID = ?")) {
+             statement.setInt(1, dealId);
+             try (ResultSet resultSet = statement.executeQuery()) {
+                 if (resultSet.next()) {
+                     int dealCount = resultSet.getInt("dealCount");
+                     return dealCount > 0;
+                 }
+             }
+         }
+         return false; // Return false if an error occurs or if no result is found
+     }
+
+
+
+     private static boolean companyExists(int companyId) throws SQLException {
+         // Check if the companyId exists in the TransportCompany table
+         try (Connection connection = DriverManager.getConnection(url);
+              PreparedStatement statement = connection.prepareStatement("SELECT * FROM TransportCompany WHERE CompanyID = ?")) {
+             statement.setInt(1, companyId);
+             try (ResultSet resultSet = statement.executeQuery()) {
+                 return resultSet.next(); // Return true if companyId exists
+             }
+         }
+     }
+     public static ArrayList<AdminTransactionCompanyController.TransactionCompany> getExistingCompanyTransactions() {
+         ArrayList<AdminTransactionCompanyController.TransactionCompany> existingTransactions = new ArrayList<>();
+
+         try (Connection connection = DriverManager.getConnection(url);
+              PreparedStatement statement = connection.prepareStatement("SELECT * FROM TransactionCompany");
+              ResultSet resultSet = statement.executeQuery()) {
+             while (resultSet.next()) {
+                 // Retrieve transaction details from the result set
+                 int transactionId = resultSet.getInt("TID");
+                 int dealId = resultSet.getInt("dealId");
+                 int companyId = resultSet.getInt("companyId");
+                 String transactionAmount = resultSet.getString("transactionAmount");
+                 String dateAndTime = resultSet.getString("dateAndTime");
+                 String paymentMethod = resultSet.getString("paymentMethod");
+
+                 // Create a TransactionCompany object and add it to the list
+
+                 AdminTransactionCompanyController.TransactionCompany transaction = new AdminTransactionCompanyController.TransactionCompany(transactionId, dealId, companyId, transactionAmount, dateAndTime, paymentMethod);
+
+                 existingTransactions.add(transaction);
+             }
+         } catch (SQLException e) {
+             System.out.println("Error retrieving existing transactions: " + e.getMessage());
+         }
+
+         return existingTransactions;
+     }
+
+
+
+     public static ArrayList<AdminTransactionCustomerController.TransactionCompany> getExistingCustomerTransactions() {
+         ArrayList<AdminTransactionCustomerController.TransactionCompany> existingTransactions = new ArrayList<>();
+
+         try (Connection connection = DriverManager.getConnection(url);
+              PreparedStatement statement = connection.prepareStatement("SELECT * FROM TransactionCustomer");
+              ResultSet resultSet = statement.executeQuery()) {
+             while (resultSet.next()) {
+                 // Retrieve transaction details from the result set
+                 int transactionId = resultSet.getInt("TID");
+                 int dealId = resultSet.getInt("DealID");
+                 String transactionAmount = resultSet.getString("TransactionAmount");
+                 String dateAndTime = resultSet.getString("DateAndTime");
+                 String paymentMethod = resultSet.getString("PaymentMethod");
+
+                 // Create a TransactionCompany object and add it to the list
+                 AdminTransactionCustomerController.TransactionCompany transaction = new AdminTransactionCustomerController.TransactionCompany(transactionId, dealId, transactionAmount, dateAndTime, paymentMethod);
+                 existingTransactions.add(transaction);
+             }
+         } catch (SQLException e) {
+             System.out.println("Error retrieving existing customer transactions: " + e.getMessage());
+         }
+
+         return existingTransactions;
+     }
+     public static boolean addCustomerTransaction(AdminTransactionCustomerController.TransactionCompany transaction) throws SQLException {
+         // Check if the dealId exists
+         if (!dealExists(transaction.getDealId())) {
+             System.out.println("Deal ID does not exist.");
+             return false;
+         }
+
+         // Insert the transaction into the database
+         try (Connection connection = DriverManager.getConnection(url);
+              PreparedStatement statement = connection.prepareStatement(
+                      "INSERT INTO TransactionCustomer (TID, DealID, TransactionAmount, DateAndTime, PaymentMethod) VALUES (?, ?, ?, ?, ?)")) {
+             statement.setInt(1, transaction.getTransactionId());
+             statement.setInt(2, transaction.getDealId());
+             statement.setString(3, transaction.getTransactionAmount());
+             statement.setString(4, transaction.getDateAndTime());
+             statement.setString(5, transaction.getPaymentMethod());
+
+             // Execute the insert query
+             int rowsAffected = statement.executeUpdate();
+             return rowsAffected > 0;
+         } catch (SQLException e) {
+             System.out.println("Error inserting customer transaction: " + e.getMessage());
+             return false;
+         }
+     }
+
+     public static int getLastCustomerTransactionId() {
+         int lastTransactionId = 0;
+
+         try (Connection connection = DriverManager.getConnection(url);
+              PreparedStatement statement = connection.prepareStatement("SELECT MAX(TID) AS LastID FROM TransactionCustomer");
+              ResultSet resultSet = statement.executeQuery()) {
+             if (resultSet.next()) {
+                 lastTransactionId = resultSet.getInt("LastID");
+             }
+         } catch (SQLException e) {
+             System.out.println("Error retrieving last customer transaction ID: " + e.getMessage());
+         }
+
+         return lastTransactionId;
+     }
  }

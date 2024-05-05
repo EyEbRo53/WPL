@@ -48,6 +48,9 @@ public class AdminController {
     public void loadTransactionCompany(){
         loadContent("AdminTransactionCompanyPage.fxml");
     }
+    public void loadTransactionCustomer(){
+        loadContent("AdminTransactionCustomerPage.fxml");
+    }
     public void logout() throws Exception {
         loadScene("LoginPage.fxml");
     }
