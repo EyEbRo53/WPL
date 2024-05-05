@@ -4,12 +4,13 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Alert;
 
 import java.sql.*;
 import java.util.ArrayList;
 
  public class DB_Admin {
-    static protected String url = "jdbc:sqlserver://192.168.1.25\\SQLEXPRESS;databaseName=WP;user=lol;password=1234;trustServerCertificate=true";
+     static private String url = "jdbc:sqlserver://localhost:1433;instanceName=SQLEXPRESS;databaseName=WP;user=lol;password=1234;trustServerCertificate=true";
 
     public static void AddOrder(ObservableList<CustomerPlaceOrderController.Item> items, String email) {
         String url = "jdbc:sqlserver://192.168.1.25\\SQLEXPRESS;databaseName=WP;user=lol;password=1234;trustServerCertificate=true";
@@ -218,7 +219,7 @@ import java.util.ArrayList;
                  "LEFT JOIN Cargo_Transport CT ON C.CargoID = CT.CargoID " +
                  "WHERE D.DealID = ?";
 
-         try (Connection connection = DriverManager.getConnection(DB_CustomerFunctions.url);
+         try (Connection connection = DriverManager.getConnection(url);
               PreparedStatement statement = connection.prepareStatement(sql)) {
 
              statement.setInt(1, dealId);
@@ -240,4 +241,175 @@ import java.util.ArrayList;
 
          return items;
      }
-}
+
+     public static boolean AddVehicle(String numberPlate, int rentedBy) {
+         try (Connection connection = DriverManager.getConnection(url)) {
+             // Check if rentedBy exists in the database
+             if (!checkTransportCompanyExists(connection, rentedBy)) {
+                 System.out.println("Transport company with ID " + rentedBy + " does not exist.");
+                 return false;
+             }
+
+             // Check if numberPlate exists in the Transport table
+             if (!checkTransportExists(connection, numberPlate)) {
+                 System.out.println("Transport with number plate " + numberPlate + "already exist.");
+                 return false;
+             }
+
+             // Proceed with adding the vehicle
+             String sql = "{CALL AddVehicle(?, ?)}";
+             try (PreparedStatement statement = connection.prepareCall(sql)) {
+                 statement.setString(1, numberPlate);
+                 statement.setInt(2, rentedBy);
+                 int affectedRows = statement.executeUpdate();
+                 if (affectedRows > 0) {
+                     System.out.println("Vehicle added successfully.");
+                     return true; // Operation was successful
+                 } else {
+                     System.out.println("Failed to add vehicle.");
+                     return false; // Operation failed
+                 }
+             }
+         } catch (SQLException e) {
+             e.printStackTrace();
+             return false; // Operation failed due to exception
+         }
+     }
+
+     // Method to check if rentedBy exists in the database
+     private static boolean checkTransportCompanyExists(Connection connection, int rentedBy) throws SQLException {
+         String sql = "SELECT COUNT(*) FROM TransportCompany WHERE CompanyID = ?";
+         try (PreparedStatement statement = connection.prepareStatement(sql)) {
+             statement.setInt(1, rentedBy);
+             try (ResultSet resultSet = statement.executeQuery()) {
+                 if (resultSet.next()) {
+                     if(resultSet.getInt(1) > 0)
+                         return true;
+                     else
+                        return false ; // Return true if count > 0, indicating existence
+                 }
+             }
+         }
+         return false; // Return false if an error occurs
+     }
+
+     public static ArrayList<AdminTransportCompany.TransportCompany> getExistingTransportCompanies() {
+         ArrayList<AdminTransportCompany.TransportCompany> existingCompanies = new ArrayList<>();
+         String sql = "SELECT CompanyID, CompanyName, ContactNo FROM TransportCompany WHERE CompanyID != 0";
+
+         try (Connection connection = DriverManager.getConnection(url);
+              PreparedStatement statement = connection.prepareStatement(sql);
+              ResultSet resultSet = statement.executeQuery()) {
+
+             while (resultSet.next()) {
+                 int companyId = resultSet.getInt("CompanyID");
+                 String companyName = resultSet.getString("CompanyName");
+                 String contactNumber = resultSet.getString("ContactNo");
+                 existingCompanies.add(new AdminTransportCompany.TransportCompany(companyId, companyName, contactNumber));
+             }
+         } catch (SQLException e) {
+             e.printStackTrace();
+         }
+
+         return existingCompanies;
+     }
+
+     // Method to check if numberPlate exists in the Transport table
+     private static boolean checkTransportExists(Connection connection, String numberPlate) throws SQLException {
+         String sql = "SELECT COUNT(*) FROM Transport WHERE NumberPlate = ?";
+         try (PreparedStatement statement = connection.prepareStatement(sql)) {
+             statement.setString(1, numberPlate);
+             try (ResultSet resultSet = statement.executeQuery()) {
+                 if (resultSet.next()) {
+                     if(resultSet.getInt(1) > 0)
+                        return false;  // Return true if count > 0, indicating existence
+                     else
+                         return true;
+                 }
+             }
+         }
+         return false; // Return false if an error occurs
+     }
+
+     public static ArrayList<TransportController.Vehicle> getExistingVehicles() {
+         ArrayList<TransportController.Vehicle> existingVehicles = new ArrayList<>();
+         try (Connection connection = DriverManager.getConnection(url)) {
+             String sql = "SELECT T.NumberPlate, T.RentedBy, CT.CargoID " +
+                     "FROM Transport T " +
+                     "LEFT JOIN Cargo_Transport CT ON T.NumberPlate = CT.NumberPlate " +
+                     "WHERE T.NumberPlate NOT IN (SELECT DISTINCT NumberPlate FROM Cargo_Transport WHERE NumberPlate IS NOT NULL)";
+
+             try (PreparedStatement statement = connection.prepareStatement(sql)) {
+                 try (ResultSet resultSet = statement.executeQuery()) {
+                     while (resultSet.next()) {
+                         String numberPlate = resultSet.getString("NumberPlate");
+                         int rentedBy = resultSet.getInt("RentedBy");
+                         int cargoID = resultSet.getInt("CargoID"); // Assuming cargoID is an integer in the database
+                         existingVehicles.add(new TransportController.Vehicle(numberPlate, rentedBy, cargoID));
+                     }
+                 }
+             }
+         } catch (SQLException e) {
+             e.printStackTrace();
+         }
+         return existingVehicles;
+     }
+     public static boolean addTransportCompany(AdminTransportCompany.TransportCompany newCompany) {
+         // Check if the phone number already exists
+         if (phoneNumberExists(newCompany.getContactNumber())) {
+             // If the phone number already exists, display an error message
+             Alert alert = new Alert(Alert.AlertType.ERROR);
+             alert.setHeaderText(null);
+             alert.setContentText("Phone number already exists. Please use a different phone number.");
+             alert.showAndWait();
+             return false;
+         }
+
+         // Generate a new company ID by getting the last company ID and incrementing it by 1
+         int newCompanyId = getLastCompanyId() + 1;
+
+         // Insert the new company into the database
+         String sql = "INSERT INTO TransportCompany (CompanyID, CompanyName, ContactNo) VALUES (?, ?, ?)";
+         try (Connection connection = DriverManager.getConnection(url);
+              PreparedStatement statement = connection.prepareStatement(sql)) {
+             statement.setInt(1, newCompanyId);
+             statement.setString(2, newCompany.getCompanyName());
+             statement.setString(3, newCompany.getContactNumber());
+             statement.executeUpdate();
+             newCompany.setCompanyID(newCompanyId);
+             return true;
+         } catch (SQLException e) {
+             e.printStackTrace();
+             return false;
+         }
+     }
+
+     private static int getLastCompanyId() {
+         int lastCompanyId = 0;
+         String sql = "SELECT MAX(CompanyID) AS LastCompanyID FROM TransportCompany";
+         try (Connection connection = DriverManager.getConnection(url);
+              Statement statement = connection.createStatement();
+              ResultSet resultSet = statement.executeQuery(sql)) {
+             if (resultSet.next()) {
+                 lastCompanyId = resultSet.getInt("LastCompanyID");
+             }
+         } catch (SQLException e) {
+             e.printStackTrace();
+         }
+         return lastCompanyId;
+     }
+
+     private static boolean phoneNumberExists(String phoneNumber) {
+         String sql = "SELECT * FROM TransportCompany WHERE ContactNo = ?";
+         try (Connection connection = DriverManager.getConnection(url);
+              PreparedStatement statement = connection.prepareStatement(sql)) {
+             statement.setString(1, phoneNumber);
+             try (ResultSet resultSet = statement.executeQuery()) {
+                 return resultSet.next(); // Returns true if phone number exists
+             }
+         } catch (SQLException e) {
+             e.printStackTrace();
+             return false;
+         }
+     }
+ }

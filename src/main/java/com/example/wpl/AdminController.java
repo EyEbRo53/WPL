@@ -39,10 +39,18 @@ public class AdminController {
         loadContent("AdminPastRecordsPage.fxml");
     }
 
+    public void loadVehiclePage() {
+        loadContent("AdminVehiclePage.fxml");
+    }
+    public void loadTransportCompany(){
+        loadContent("AdminTransportCompanyPage.fxml");
+    }
+    public void loadTransactionCompany(){
+        loadContent("AdminTransactionCompanyPage.fxml");
+    }
     public void logout() throws Exception {
         loadScene("LoginPage.fxml");
     }
-
     public void loadContent(String fxml) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/wpl/" + fxml));

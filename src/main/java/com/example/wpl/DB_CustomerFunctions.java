@@ -11,10 +11,10 @@ import java.util.regex.Pattern;
 import static java.sql.Statement.RETURN_GENERATED_KEYS;
 
 public class DB_CustomerFunctions {
-    static protected String url = "jdbc:sqlserver://192.168.1.25\\SQLEXPRESS;databaseName=WP;user=lol;password=1234;trustServerCertificate=true";
+    static private String url = "jdbc:sqlserver://localhost:1433;instanceName=SQLEXPRESS;databaseName=WP;user=lol;password=1234;trustServerCertificate=true";
 
     public static void AddOrder(ObservableList<CustomerPlaceOrderController.Item> items, String email) {
-        String url = "jdbc:sqlserver://192.168.1.25\\SQLEXPRESS;databaseName=WP;user=lol;password=1234;trustServerCertificate=true";
+        //String url = "jdbc:sqlserver://192.168.1.25\\SQLEXPRESS;databaseName=WP;user=lol;password=1234;trustServerCertificate=true";
         System.out.print("this is : " + email);
 
 

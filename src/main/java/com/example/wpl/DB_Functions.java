@@ -6,6 +6,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class DB_Functions {
+    static private String url = "jdbc:sqlserver://localhost:1433;instanceName=SQLEXPRESS;databaseName=WP;user=lol;password=1234;trustServerCertificate=true";
     public static int signUp(String name, String email, String password) {
         // Check if the email is valid
         if (!isValidEmail(email)) {
@@ -13,7 +14,6 @@ public class DB_Functions {
             return 3;
         }
         boolean res = true;
-        String url = "jdbc:sqlserver://192.168.1.25\\SQLEXPRESS;databaseName=WP;user=lol;password=1234;trustServerCertificate=true";
         String sqlQuery = "{call AddCustomer(?, ?, ?)}";
         try (Connection conn = DriverManager.getConnection(url);
              CallableStatement pstmt = conn.prepareCall(sqlQuery)) {
@@ -49,7 +49,6 @@ public class DB_Functions {
     }
     public static boolean checkAdminCredentials(String email, String password) {
         // Database connection details
-        String url = "jdbc:sqlserver://192.168.1.25\\SQLEXPRESS;databaseName=WP;user=lol;password=1234;trustServerCertificate=true";
         String sqlQuery = "SELECT * FROM User_table WHERE email = ? AND UserPassword = ?";
 
         try (Connection conn = DriverManager.getConnection(url);
@@ -71,7 +70,6 @@ public class DB_Functions {
     }
     public static boolean checkCustomerCredentials(String email, String password) {
         // Database connection details
-        String url = "jdbc:sqlserver://192.168.1.25\\SQLEXPRESS;databaseName=WP;user=lol;password=1234;trustServerCertificate=true";
         String sqlQuery = "SELECT * FROM Customer WHERE email = ? AND Password = ?";
 
         try (Connection conn = DriverManager.getConnection(url);
