@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.cell.CheckBoxTableCell?>
+<?import javafx.scene.control.cell.CheckBoxTableCell?>
+
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<VBox xmlns="http://javafx.com/javafx/21"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.example.wpl.AdminCargoController"
+      spacing="20" style="-fx-padding: 20;">
+    <Label text="Bilty/Cargo" style="-fx-font-size: 24; -fx-font-weight: bold;"/>
+    <TableView fx:id="itemsTable">
+        <columns>
+            <TableColumn text="Cargo ID" prefWidth="100">
+                <cellValueFactory>
+                    <PropertyValueFactory property="cargoID" />
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn text="Item Name">
+                <cellValueFactory>
+                    <PropertyValueFactory property="name" />
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn text="Quantity">
+                <cellValueFactory>
+                    <PropertyValueFactory property="quantity" />
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn text="Weight">
+                <cellValueFactory>
+                    <PropertyValueFactory property="weight" />
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn text="Vehicle Assigned">
+                <cellValueFactory>
+                    <PropertyValueFactory property="vehicleAssigned" />
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn text="Select">
+                <cellValueFactory>
+                    <PropertyValueFactory property="selected" />
+                </cellValueFactory>
+            </TableColumn>
+        </columns>
+    </TableView>
+    <TableView fx:id="vehiclesTable" >
+        <columns>
+            <TableColumn text="NumberPlate">
+                <cellValueFactory>
+                    <PropertyValueFactory property="numberPlate" />
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn text="Rented By">
+                <cellValueFactory>
+                    <PropertyValueFactory property="rentedBy" />
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn text="Cargo Assigned">
+                <cellValueFactory>
+                    <PropertyValueFactory property="cargoAssigned" />
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn text="Select">
+                <cellValueFactory>
+                    <PropertyValueFactory property="selected" />
+                </cellValueFactory>
+            </TableColumn>
+
+        </columns>
+    </TableView>
+
+
+
+    <Button text="Assign Cargo to Selected Vehicle" onAction="#confirmAction"/>
+    <Button text="Back" onAction="#backAction"/>
+</VBox>
+
+
+

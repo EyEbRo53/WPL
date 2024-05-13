@@ -21,6 +21,8 @@
             <Button text="View Transport Company" style="-fx-text-fill: white; -fx-background-color: #3C5060; -fx-font-weight: bold; -fx-pref-width: 200;" onMouseClicked="#loadTransportCompany"/>
             <Button text="View Company Transactions" style="-fx-text-fill: white; -fx-background-color: #3C5060; -fx-font-weight: bold; -fx-pref-width: 200;" onMouseClicked="#loadTransactionCompany"/>
             <Button text="View Customer Transactions" style="-fx-text-fill: white; -fx-background-color: #3C5060; -fx-font-weight: bold; -fx-pref-width: 200;" onMouseClicked="#loadTransactionCustomer"/>
+            <Button text="Bilty Information" style="-fx-text-fill: white; -fx-background-color: #3C5060; -fx-font-weight: bold; -fx-pref-width: 200;" onMouseClicked="#loadAdminBilty"/>
+            <Button text="Graphs" style="-fx-text-fill: white; -fx-background-color: #3C5060; -fx-font-weight: bold; -fx-pref-width: 200;" onMouseClicked="#loadGraphs"/>
             <Button text="Logout" style="-fx-text-fill: white; -fx-background-color: #3C5060; -fx-font-weight: bold; -fx-pref-width: 200;" onMouseClicked="#logout"/>
 
             <!-- Add more buttons as needed -->

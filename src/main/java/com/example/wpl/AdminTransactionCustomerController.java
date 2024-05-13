@@ -8,6 +8,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
+import static com.example.wpl.InvoiceGenerator.generateInvoice;
+
 public class AdminTransactionCustomerController {
 
     @FXML
@@ -32,7 +34,8 @@ public class AdminTransactionCustomerController {
     private TableColumn<TransactionCompany, String> dateAndTimeColumn;
     @FXML
     private TableColumn<TransactionCompany, String> paymentMethodColumn;
-
+    @FXML
+    private TableColumn<TransactionCompany, Void> generateInvoiceColumn;
     // Static transaction list shared across all instances of this controller
     private static ObservableList<TransactionCompany> transactions = FXCollections.observableArrayList();
 
@@ -51,6 +54,30 @@ public class AdminTransactionCustomerController {
 
         // Set the static transactions list to the table
         transactionTable.setItems(transactions);
+        generateInvoiceColumn.setCellFactory(param -> new TableCell<>() {
+            private final Button generateInvoiceButton = new Button("Generate");
+            {
+                generateInvoiceButton.setOnAction(event -> {
+                    TransactionCompany transaction = getTableView().getItems().get(getIndex());
+                    generateInvoice(transaction.getTransactionId());
+
+                });
+            }
+
+            @Override
+            protected void updateItem(Void item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty) {
+                    setGraphic(null);
+                } else {
+                    setGraphic(generateInvoiceButton);
+                }
+            }
+        });
+    }
+    private void generateInvoice(int transactionId) {
+        // Call the invoice generator function here
+        InvoiceGenerator.generateInvoice(transactionId);
     }
 
     private void fetchExistingTransactions() {

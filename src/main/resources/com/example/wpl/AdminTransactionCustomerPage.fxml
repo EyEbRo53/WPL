@@ -2,6 +2,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
 <VBox xmlns="http://javafx.com/javafx/21"
       xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="com.example.wpl.AdminTransactionCustomerController"
@@ -16,7 +17,13 @@
                     <TableColumn fx:id="transactionAmountColumn" text="Transaction Amount" prefWidth="130" />
                     <TableColumn fx:id="dateAndTimeColumn" text="Date and Time" prefWidth="130" />
                     <TableColumn fx:id="paymentMethodColumn" text="Payment Method" prefWidth="150" />
+                    <TableColumn fx:id="generateInvoiceColumn" text="Generate Invoice" prefWidth="120">
+                        <cellFactory>
+                            <PropertyValueFactory property="generateInvoiceButton"/>
+                        </cellFactory>
+                    </TableColumn>
                 </columns>
+
             </TableView>
         </VBox>
     </ScrollPane>

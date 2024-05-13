@@ -7,9 +7,11 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
 
 import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 
- public class DB_Admin {
+public class DB_Admin {
      static private String url = "jdbc:sqlserver://localhost:1433;instanceName=SQLEXPRESS;databaseName=WP;user=lol;password=1234;trustServerCertificate=true";
 
     public static void AddOrder(ObservableList<CustomerPlaceOrderController.Item> items, String email) {
@@ -334,10 +336,8 @@ import java.util.ArrayList;
      public static ArrayList<TransportController.Vehicle> getExistingVehicles() {
          ArrayList<TransportController.Vehicle> existingVehicles = new ArrayList<>();
          try (Connection connection = DriverManager.getConnection(url)) {
-             String sql = "SELECT T.NumberPlate, T.RentedBy, CT.CargoID " +
-                     "FROM Transport T " +
-                     "LEFT JOIN Cargo_Transport CT ON T.NumberPlate = CT.NumberPlate " +
-                     "WHERE T.NumberPlate NOT IN (SELECT DISTINCT NumberPlate FROM Cargo_Transport WHERE NumberPlate IS NOT NULL)";
+             String sql = "SELECT T.NumberPlate, T.RentedBy, Cargo_Transport.CargoID " +
+                     "FROM Transport as T left join Cargo_Transport on Cargo_Transport.NumberPlate = T.NumberPlate";
 
              try (PreparedStatement statement = connection.prepareStatement(sql)) {
                  try (ResultSet resultSet = statement.executeQuery()) {
@@ -426,12 +426,6 @@ import java.util.ArrayList;
              return false;
          }
 
-         // Get the last transaction ID from the database
-
-
-         // Increment the last transaction ID by 1
-
-         // Insert the transaction into the database
          try (Connection connection = DriverManager.getConnection(url);
               PreparedStatement statement = connection.prepareStatement("INSERT INTO TransactionCompany (TID, DealID, CompanyID, TransactionAmount, DateAndTime, PaymentMethod) VALUES (?, ?, ?, ?, ?, ?)"))
          {
@@ -586,4 +580,157 @@ import java.util.ArrayList;
 
          return lastTransactionId;
      }
- }
+     public static ArrayList<AdminBiltyController.BiltyDealPair> getBiltyDealPairsFromDatabase() {
+         ArrayList<AdminBiltyController.BiltyDealPair> biltyDealPairs = new ArrayList<>();
+
+         try (Connection connection = DriverManager.getConnection(url)) {
+             String sql = "SELECT BiltyID, DealID FROM Goods_bilty";
+             try (PreparedStatement statement = connection.prepareStatement(sql)) {
+                 try (ResultSet resultSet = statement.executeQuery()) {
+                     while (resultSet.next()) {
+                         int biltyID = resultSet.getInt("BiltyID");
+                         int dealID = resultSet.getInt("DealID");
+                         biltyDealPairs.add(new AdminBiltyController.BiltyDealPair(biltyID, dealID));
+                     }
+                 }
+             }
+         } catch (SQLException e) {
+             e.printStackTrace();
+         }
+
+         return biltyDealPairs;
+     }
+    public static List<AdminCargoController.Item> getCargoByBiltyID(int biltyID) {
+        List<AdminCargoController.Item> cargoList = new ArrayList<>();
+
+        try (Connection conn = DriverManager.getConnection(url)) {
+            String query = "SELECT Cargo.CargoID, Items.ItemName, Cargo.quantity, Items.Weigh, COALESCE(Cargo_Transport.numberPlate, 'None') AS vehicleAssigned " +
+                    "FROM Cargo " +
+                    "INNER JOIN Items ON Cargo.ItemId = Items.ItemId " +
+                    "LEFT JOIN Cargo_Transport ON Cargo.CargoID = Cargo_Transport.CargoID " +
+                    "WHERE Cargo.BiltyID = ?";
+            try (PreparedStatement statement = conn.prepareStatement(query)) {
+                statement.setInt(1, biltyID);
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    while (resultSet.next()) {
+                        int cargoID = resultSet.getInt("CargoID");
+                        String itemName = resultSet.getString("itemName");
+                        int quantity = resultSet.getInt("quantity");
+                        double weight = resultSet.getDouble("weigh");
+                        String vehicleAssigned = resultSet.getString("vehicleAssigned");
+
+                        AdminCargoController.Item cargo = new AdminCargoController.Item(cargoID, itemName, quantity, weight, vehicleAssigned);
+                        cargoList.add(cargo);
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Handle any SQL exceptions or connection errors
+        }
+
+        return cargoList;
+    }
+
+    public static List<AdminCargoController.Vehicle> getAvailableVehicles(int biltyID) {
+        List<AdminCargoController.Vehicle> availableVehicles = new ArrayList<>();
+
+        try (Connection conn = DriverManager.getConnection(url)) {
+            String query = "SELECT Transport.NumberPlate, Transport.RentedBy, Cargo_Transport.CargoID " +
+                    "FROM Transport " +
+                    "LEFT JOIN Cargo_Transport ON Transport.NumberPlate = Cargo_Transport.NumberPlate " +
+                    "WHERE Transport.NumberPlate NOT IN (" +
+                    "SELECT NumberPlate FROM Cargo_Transport WHERE CargoID IN (" +
+                    "SELECT CargoID FROM Cargo WHERE BiltyID = ?" +
+                    ")" +
+                    ")";
+            try (PreparedStatement statement = conn.prepareStatement(query)) {
+                statement.setInt(1, biltyID);
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    while (resultSet.next()) {
+                        // Assuming your Vehicles table has columns named numberPlate, rentedBy, cargoAssigned
+                        String numberPlate = resultSet.getString("NumberPlate");
+                        String rentedBy = resultSet.getString("RentedBy");
+                        int cargoAssigned = resultSet.getInt("CargoID");
+
+                        AdminCargoController.Vehicle vehicle = new AdminCargoController.Vehicle(numberPlate, rentedBy, cargoAssigned);
+                        availableVehicles.add(vehicle);
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Handle any SQL exceptions or connection errors
+        }
+
+        return availableVehicles;
+    }
+    public static void linkVehicleAndCargo(AdminCargoController.Vehicle vehicle, AdminCargoController.Item cargo) {
+
+
+        try (Connection conn = DriverManager.getConnection(url)) {
+            String query = "INSERT INTO Cargo_Transport (NumberPlate, CargoID, DepartTime, ArrivalTime) VALUES (?, ?, GETDATE(), DATEADD(DAY, 10, GETDATE()))";
+            try (PreparedStatement statement = conn.prepareStatement(query)) {
+                statement.setString(1, vehicle.getNumberPlate());
+                statement.setInt(2, cargo.getCargoID());
+                statement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Handle any SQL exceptions or connection errors
+        }
+    }
+
+    public static List<ProfitLossChartController.Transaction> getLossTransactions() {
+        List<ProfitLossChartController.Transaction> lossTransactions = new ArrayList<>();
+
+        String sql = "SELECT * FROM TransactionCompany";
+
+        try (Connection conn = DriverManager.getConnection(url);
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                // Retrieve data from the result set and create Transaction objects
+                LocalDateTime dateAndTime = rs.getTimestamp("dateAndTime").toLocalDateTime();
+                double amount = rs.getDouble("TransactionAmount");
+
+                // Create a new Transaction object and add it to the list
+                ProfitLossChartController.Transaction transaction = new ProfitLossChartController.Transaction(dateAndTime, amount);
+                lossTransactions.add(transaction);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Handle any SQL exception here
+        }
+
+        return lossTransactions;
+    }
+    public static List<ProfitLossChartController.Transaction> getProfitTransactions() {
+        List<ProfitLossChartController.Transaction> profitTransactions = new ArrayList<>();
+
+        String sql = "SELECT * FROM TransactionCustomer";
+
+        try (Connection conn = DriverManager.getConnection(url);
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                // Retrieve data from the result set and create Transaction objects
+                LocalDateTime dateAndTime = rs.getTimestamp("dateAndTime").toLocalDateTime();
+                double amount = rs.getDouble("TransactionAmount");
+
+                // Create a new Transaction object and add it to the list
+                ProfitLossChartController.Transaction transaction = new ProfitLossChartController.Transaction(dateAndTime, amount);
+                profitTransactions.add(transaction);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Handle any SQL exception here
+        }
+
+        return profitTransactions;
+    }
+}
